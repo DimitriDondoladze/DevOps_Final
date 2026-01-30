@@ -105,9 +105,8 @@ variable "ecr_repository_name" {
 
 # Container Variables
 variable "container_image" {
-  description = "Container image URI (will be set by GitHub Actions)"
+  description = "Container image URI (must be set by GitHub Actions or terraform apply -var)"
   type        = string
-  default     = "nginx:latest"
 }
 
 # ECS Variables

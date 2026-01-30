@@ -31,5 +31,5 @@ ecs_desired_count = 2
 ecs_min_capacity = 1
 ecs_max_capacity = 4
 
-# Container Image (will be replaced by GitHub Actions)
-container_image = "nginx:latest"  # Placeholder - replaced in CI/CD
+# Container Image (will be replaced by GitHub Actions or CLI var)
+container_image = ""  # Must be set via -var flag or GitHub Actions
