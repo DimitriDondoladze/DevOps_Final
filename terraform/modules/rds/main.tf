@@ -12,7 +12,7 @@ resource "aws_db_subnet_group" "main" {
 resource "aws_db_instance" "main" {
   identifier     = "${var.app_name}-db"
   engine         = "mysql"
-  engine_version = "8.0.35"
+  engine_version = "8.0.43"
   instance_class = var.instance_class
 
   allocated_storage = var.allocated_storage
