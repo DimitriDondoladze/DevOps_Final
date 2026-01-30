@@ -1,4 +1,4 @@
-name: Build and Deploy to ECS
+name: Build and Deploy to ECS with Terraform
 
 on:
   push:
@@ -12,11 +12,15 @@ env:
   ECS_SERVICE: devops-final-service
   ECS_CLUSTER: devops-final-cluster
   ECS_TASK_DEFINITION: devops-final
+  TERRAFORM_VERSION: 1.5.0
 
 jobs:
   build:
     name: Build and Push to ECR
     runs-on: ubuntu-latest
+
+    outputs:
+      image: ${{ steps.image.outputs.image }}
 
     steps:
       - name: Checkout repository
@@ -43,14 +47,8 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-      - name: Upload task definition as artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: task-definition
-          path: terraform/
-
   deploy:
-    name: Deploy to ECS
+    name: Deploy to ECS with Terraform
     needs: build
     runs-on: ubuntu-latest
 
@@ -65,12 +63,33 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
         with:
-          name: task-definition
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
 
-      - name: Update ECS Task Definition
+      - name: Terraform Init
+        run: |
+          cd terraform
+          terraform init
+
+      - name: Terraform Plan
+        run: |
+          cd terraform
+          terraform plan -var="container_image=${{ needs.build.outputs.image }}" -out=tfplan
+
+      - name: Terraform Apply
+        run: |
+          cd terraform
+          terraform apply -auto-approve tfplan
+
+      - name: Get ECS Task Definition
+        id: task-def
+        run: |
+          TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_DEFINITION }} --region ${{ env.AWS_REGION }} --query taskDefinition)
+          echo "$TASK_DEFINITION" > task-definition.json
+
+      - name: Update ECS Service
         run: |
           aws ecs update-service \
             --cluster ${{ env.ECS_CLUSTER }} \

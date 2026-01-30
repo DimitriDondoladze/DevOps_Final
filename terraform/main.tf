@@ -8,14 +8,13 @@ terraform {
     }
   }
 
-  # Local state - remove this block if you want to use S3 remote state
-  # backend "s3" {
-  #   bucket         = "your-terraform-state-bucket"
-  #   key            = "devops-final/terraform.tfstate"
-  #   region         = "us-west-2"
-  #   encrypt        = true
-  #   dynamodb_table = "terraform-locks"
-  # }
+  backend "s3" {
+    bucket         = "devops-final-terraform-state-425210931122"
+    key            = "devops-final/terraform.tfstate"
+    region         = "us-west-2"
+    encrypt        = true
+    dynamodb_table = "devops-final-terraform-locks"
+  }
 }
 
 provider "aws" {
