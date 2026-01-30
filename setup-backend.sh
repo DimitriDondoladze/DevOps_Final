@@ -19,7 +19,7 @@ ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 echo "✓ AWS Account ID: $ACCOUNT_ID"
 
 # Set variables
-AWS_REGION="us-west-2"
+AWS_REGION="us-east-2"
 STATE_BUCKET_NAME="devops-final-terraform-state-${ACCOUNT_ID}"
 DYNAMODB_TABLE_NAME="devops-final-terraform-locks"
 

@@ -93,7 +93,7 @@ ls -la
 
 ```hcl
 # Line 1: Region (already correct)
-aws_region     = "us-west-2"
+aws_region     = "us-east-2"
 
 # Line 2: App name (optional, keep as is)
 app_name       = "devops-final"
@@ -246,14 +246,14 @@ terraform output alb_dns_name
 
 **Output example:**
 ```
-devops-final-alb-123456.us-west-2.elb.amazonaws.com
+devops-final-alb-123456.us-east-2.elb.amazonaws.com
 ```
 
 ### 6.2 Test Application
 
 Open browser and visit:
 ```
-http://devops-final-alb-123456.us-west-2.elb.amazonaws.com
+http://devops-final-alb-123456.us-east-2.elb.amazonaws.com
 ```
 
 **You should see:**
@@ -265,7 +265,7 @@ Hello from AWS DevOps Final Project
 
 Visit:
 ```
-http://devops-final-alb-123456.us-west-2.elb.amazonaws.com/db
+http://devops-final-alb-123456.us-east-2.elb.amazonaws.com/db
 ```
 
 **You should see:**
@@ -293,7 +293,7 @@ http://devops-final-alb-123456.us-west-2.elb.amazonaws.com/db
 2. Check:
    - Instance: `devops-final-db`
    - Status: Available
-   - Endpoint: `devops-final-db.xxxxx.us-west-2.rds.amazonaws.com`
+   - Endpoint: `devops-final-db.xxxxx.us-east-2.rds.amazonaws.com`
 
 ### 7.3 ECS Cluster
 1. AWS Console → **ECS**
@@ -321,7 +321,7 @@ http://devops-final-alb-123456.us-west-2.elb.amazonaws.com/db
 
 ```bash
 # Using AWS CLI
-aws logs tail /ecs/devops-final --follow --region us-west-2
+aws logs tail /ecs/devops-final --follow --region us-east-2
 
 # Or in AWS Console:
 # CloudWatch → Log groups → /ecs/devops-final
@@ -333,13 +333,13 @@ aws logs tail /ecs/devops-final --follow --region us-west-2
 # List running tasks
 aws ecs list-tasks \
   --cluster devops-final-cluster \
-  --region us-west-2
+  --region us-east-2
 
 # Get task details
 aws ecs describe-tasks \
   --cluster devops-final-cluster \
   --tasks arn:aws:ecs:... \
-  --region us-west-2
+  --region us-east-2
 ```
 
 ### Check Auto Scaling

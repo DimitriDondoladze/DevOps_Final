@@ -142,14 +142,14 @@ terraform output alb_dns_name
 
 **Copy the output**, e.g.:
 ```
-devops-final-alb-12345.us-west-2.elb.amazonaws.com
+devops-final-alb-12345.us-east-2.elb.amazonaws.com
 ```
 
 ### Test Endpoint 1: Health Check
 
 Open browser and visit:
 ```
-http://devops-final-alb-12345.us-west-2.elb.amazonaws.com/
+http://devops-final-alb-12345.us-east-2.elb.amazonaws.com/
 ```
 
 **You should see**:
@@ -161,7 +161,7 @@ Hello from AWS DevOps Final Project
 
 Visit:
 ```
-http://devops-final-alb-12345.us-west-2.elb.amazonaws.com/db
+http://devops-final-alb-12345.us-east-2.elb.amazonaws.com/db
 ```
 
 **You should see**:
@@ -254,7 +254,7 @@ VPC: devops-final-vpc
 
 ### Database
 ```
-Host: devops-final-db.xxxxx.us-west-2.rds.amazonaws.com
+Host: devops-final-db.xxxxx.us-east-2.rds.amazonaws.com
 User: admin
 Password: <YOUR_PASSWORD>
 Database: appdb

@@ -120,7 +120,7 @@ rds_publicly_accessible = true
 - DB identifier: devops-final-db
 - Engine: MySQL 8.0.35
 - Status: Available
-- Endpoint: devops-final-db.xxxxx.us-west-2.rds.amazonaws.com
+- Endpoint: devops-final-db.xxxxx.us-east-2.rds.amazonaws.com
 - Allocated storage: 20 GB
 ```
 
@@ -150,7 +150,7 @@ rds_publicly_accessible = true
 ### Networking Configuration
 - **Deployment**: Private subnets (not publicly routable)
 - **Public Accessible**: Enabled for troubleshooting
-- **Availability Zones**: Multi-AZ capable across us-west-2a and us-west-2b
+- **Availability Zones**: Multi-AZ capable across us-east-2a and us-east-2b
 
 ### Security Configuration
 - **Security Group**: Inbound MySQL (3306) from ECS tasks only
@@ -163,7 +163,7 @@ rds_publicly_accessible = true
 2. ECS task has access to RDS security group
 3. RDS accepts connections from ECS security group on port 3306
 4. Database credentials injected as environment variables
-5. Connection string: mysql://admin:password@devops-final-db.xxxxx.us-west-2.rds.amazonaws.com:3306/appdb
+5. Connection string: mysql://admin:password@devops-final-db.xxxxx.us-east-2.rds.amazonaws.com:3306/appdb
 ```
 
 ---
@@ -246,7 +246,7 @@ CMD ["python", "app.py"]
 
 ### ECR Repository Setup
 - **Repository Name**: devops-final
-- **Region**: us-west-2
+- **Region**: us-east-2
 - **Lifecycle Policy**: Keep last 5 images (cost optimization)
 - **Image Scanning**: Enabled for vulnerability detection
 
@@ -367,7 +367,7 @@ Used for secure credential storage:
 
 ### Environment Variables
 ```
-AWS_REGION = us-west-2
+AWS_REGION = us-east-2
 ECR_REPOSITORY = devops-final
 ECS_CLUSTER = devops-final-cluster
 ECS_SERVICE = devops-final-service
@@ -493,7 +493,7 @@ ECS_SERVICE = devops-final-service
 ### ECS Cluster Configuration
 - **Cluster Name**: devops-final-cluster
 - **Orchestration Type**: Fargate (serverless)
-- **Region**: us-west-2 (2 AZs for HA)
+- **Region**: us-east-2 (2 AZs for HA)
 - **Container Insights**: Enabled for monitoring
 
 ### ECS Service Configuration

@@ -106,7 +106,7 @@ Your Project Root
 
 ### AWS Services & Naming
 ```
-Region:         us-west-2
+Region:         us-east-2
 App Name:       devops-final
 VPC CIDR:       10.0.0.0/16
 
@@ -235,38 +235,38 @@ terraform destroy       # Delete everything
 # ECS Cluster Status
 aws ecs describe-clusters \
   --cluster-names devops-final-cluster \
-  --region us-west-2
+  --region us-east-2
 
 # Running Tasks
 aws ecs list-tasks \
   --cluster devops-final-cluster \
-  --region us-west-2
+  --region us-east-2
 
 # Task Details
 aws ecs describe-tasks \
   --cluster devops-final-cluster \
   --tasks <TASK_ARN> \
-  --region us-west-2
+  --region us-east-2
 
 # RDS Database Status
 aws rds describe-db-instances \
   --db-instance-identifier devops-final-db \
-  --region us-west-2
+  --region us-east-2
 
 # ECR Images
 aws ecr list-images \
   --repository-name devops-final \
-  --region us-west-2
+  --region us-east-2
 
 # CloudWatch Logs
 aws logs tail /ecs/devops-final \
   --follow \
-  --region us-west-2
+  --region us-east-2
 
 # ALB Status
 aws elbv2 describe-load-balancers \
   --names devops-final-alb \
-  --region us-west-2
+  --region us-east-2
 ```
 
 ---
@@ -411,15 +411,15 @@ Local State: terraform.tfstate
 │                                                │
 │  ┌─────────────────────────────────────────┐  │
 │  │    PUBLIC SUBNETS (ALB, NAT GW)        │  │
-│  │  - 10.0.1.0/24 (us-west-2a)           │  │
-│  │  - 10.0.2.0/24 (us-west-2b)           │  │
+│  │  - 10.0.1.0/24 (us-east-2a)           │  │
+│  │  - 10.0.2.0/24 (us-east-2b)           │  │
 │  │  Routes → Internet Gateway (0.0.0.0/0) │  │
 │  └─────────────────────────────────────────┘  │
 │                                                │
 │  ┌─────────────────────────────────────────┐  │
 │  │    PRIVATE SUBNETS (ECS, RDS)          │  │
-│  │  - 10.0.10.0/24 (us-west-2a)          │  │
-│  │  - 10.0.11.0/24 (us-west-2b)          │  │
+│  │  - 10.0.10.0/24 (us-east-2a)          │  │
+│  │  - 10.0.11.0/24 (us-east-2b)          │  │
 │  │  Routes → NAT Gateway (0.0.0.0/0)     │  │
 │  └─────────────────────────────────────────┘  │
 │                                                │

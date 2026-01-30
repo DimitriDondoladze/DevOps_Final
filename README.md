@@ -72,7 +72,7 @@ This project demonstrates a fully managed AWS architecture with:
 Edit [terraform/terraform.tfvars](terraform/terraform.tfvars):
 
 ```hcl
-aws_region          = "us-west-2"
+aws_region          = "us-east-2"
 app_name            = "devops-final"
 database_password   = "ChangeMe@YourSecurePassword123"  # ← IMPORTANT!
 ```

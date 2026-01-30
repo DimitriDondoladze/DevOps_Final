@@ -12,7 +12,7 @@ Complete Infrastructure-as-Code deployment with:
 
 | Item | Value |
 |------|-------|
-| **AWS Region** | `us-west-2` |
+| **AWS Region** | `us-east-2` |
 | **Application** | Flask (Python 3.9) |
 | **Database** | MySQL 8.0.35 (RDS) |
 | **Container Orchestration** | ECS Fargate |
@@ -227,7 +227,7 @@ terraform destroy
 
 **Issue**: ECS tasks not starting
 ```bash
-aws logs tail /ecs/devops-final --follow --region us-west-2
+aws logs tail /ecs/devops-final --follow --region us-east-2
 ```
 
 **Issue**: Database connection error
@@ -266,7 +266,7 @@ mysql://admin:<PASSWORD>@<RDS_ENDPOINT>:3306/appdb
 
 **Example**:
 ```
-mysql://admin:MyPassword@123@devops-final-db.abc123.us-west-2.rds.amazonaws.com:3306/appdb
+mysql://admin:MyPassword@123@devops-final-db.abc123.us-east-2.rds.amazonaws.com:3306/appdb
 ```
 
 **RDS endpoint found in**:

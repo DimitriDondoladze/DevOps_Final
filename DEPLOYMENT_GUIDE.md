@@ -97,7 +97,7 @@ cd DevOps_Final
 **File**: `terraform/terraform.tfvars`
 
 ```hcl
-aws_region     = "us-west-2"
+aws_region     = "us-east-2"
 app_name       = "devops-final"
 
 # VPC Configuration (defaults are fine)
@@ -281,10 +281,10 @@ terraform output
 
 **Should show:**
 ```
-alb_dns_name = "devops-final-alb-XXXXX.us-west-2.elb.amazonaws.com"
-ecr_repository_url = "XXXXX.dkr.ecr.us-west-2.amazonaws.com/devops-final"
+alb_dns_name = "devops-final-alb-XXXXX.us-east-2.elb.amazonaws.com"
+ecr_repository_url = "XXXXX.dkr.ecr.us-east-2.amazonaws.com/devops-final"
 ecs_cluster_name = "devops-final-cluster"
-rds_endpoint = "devops-final-db.XXXXX.us-west-2.rds.amazonaws.com:3306"
+rds_endpoint = "devops-final-db.XXXXX.us-east-2.rds.amazonaws.com:3306"
 ```
 
 ### 2. Verify AWS Resources
@@ -293,7 +293,7 @@ rds_endpoint = "devops-final-db.XXXXX.us-west-2.rds.amazonaws.com:3306"
 ```bash
 aws ecs describe-clusters \
   --cluster-names devops-final-cluster \
-  --region us-west-2
+  --region us-east-2
 ```
 
 **ECS Service:**
@@ -301,39 +301,39 @@ aws ecs describe-clusters \
 aws ecs describe-services \
   --cluster devops-final-cluster \
   --services devops-final-service \
-  --region us-west-2
+  --region us-east-2
 ```
 
 **ECS Tasks:**
 ```bash
 aws ecs list-tasks \
   --cluster devops-final-cluster \
-  --region us-west-2
+  --region us-east-2
 
 # Get task details
 aws ecs describe-tasks \
   --cluster devops-final-cluster \
   --tasks <task-arn> \
-  --region us-west-2
+  --region us-east-2
 ```
 
 **RDS Database:**
 ```bash
 aws rds describe-db-instances \
   --db-instance-identifier devops-final-db \
-  --region us-west-2
+  --region us-east-2
 ```
 
 **ECR Repository:**
 ```bash
 aws ecr describe-repositories \
   --repository-names devops-final \
-  --region us-west-2
+  --region us-east-2
 
 # List images
 aws ecr list-images \
   --repository-name devops-final \
-  --region us-west-2
+  --region us-east-2
 ```
 
 ### 3. Test Application
@@ -342,7 +342,7 @@ aws ecr list-images \
 ```bash
 aws elbv2 describe-load-balancers \
   --names devops-final-alb \
-  --region us-west-2 | grep DNSName
+  --region us-east-2 | grep DNSName
 ```
 
 **Or from Terraform:**
@@ -370,7 +370,7 @@ curl http://$ALB_DNS/db
 
 ```bash
 # View logs
-aws logs tail /ecs/devops-final --follow --region us-west-2
+aws logs tail /ecs/devops-final --follow --region us-east-2
 
 # Or in AWS Console:
 # CloudWatch → Logs → /ecs/devops-final
@@ -386,7 +386,7 @@ aws logs tail /ecs/devops-final --follow --region us-west-2
 ```bash
 aws ecs describe-task-definition \
   --task-definition devops-final \
-  --region us-west-2
+  --region us-east-2
 ```
 
 **View task logs:**
@@ -400,14 +400,14 @@ aws logs tail /ecs/devops-final --follow
 ```bash
 aws rds describe-db-instances \
   --db-instance-identifier devops-final-db \
-  --region us-west-2 | grep DBInstanceStatus
+  --region us-east-2 | grep DBInstanceStatus
 ```
 
 **Check security group:**
 ```bash
 aws ec2 describe-security-groups \
   --filters Name=group-name,Values=devops-final-rds-sg \
-  --region us-west-2
+  --region us-east-2
 ```
 
 ### ALB Not Routing Traffic
@@ -417,14 +417,14 @@ aws ec2 describe-security-groups \
 # Get target group ARN
 TG_ARN=$(aws elbv2 describe-target-groups \
   --load-balancer-arn <alb-arn> \
-  --region us-west-2 \
+  --region us-east-2 \
   --query 'TargetGroups[0].TargetGroupArn' \
   --output text)
 
 # Check health
 aws elbv2 describe-target-health \
   --target-group-arn $TG_ARN \
-  --region us-west-2
+  --region us-east-2
 ```
 
 ### Terraform Errors
