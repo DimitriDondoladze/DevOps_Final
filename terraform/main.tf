@@ -84,7 +84,7 @@ module "ecs" {
 
   app_name            = var.app_name
   aws_region          = var.aws_region
-  container_image     = var.container_image
+  container_image     = "${module.ecr.repository_url}:latest"
   private_subnet_ids  = [module.vpc.private_subnet_1_id, module.vpc.private_subnet_2_id]
   security_group_id   = module.security_groups.ecs_tasks_security_group_id
   target_group_arn    = module.alb.target_group_arn
