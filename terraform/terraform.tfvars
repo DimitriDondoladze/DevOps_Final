@@ -1,6 +1,6 @@
 # IMPORTANT: Customize these values before running terraform apply
 
-aws_region     = "us-west-2"
+aws_region     = "us-east-2"
 app_name       = "devops-final"
 
 # VPC Configuration
