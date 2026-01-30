@@ -43,11 +43,21 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
+          # Build the Docker image
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app
+          
+          # Tag with both commit SHA and 'latest'
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          
+          # Push both tags to ECR
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          IMAGE_URI="$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          
+          # Output the image URI (will use :latest in Terraform)
+          IMAGE_URI="$ECR_REGISTRY/$ECR_REPOSITORY:latest"
           echo "image=$IMAGE_URI" >> $GITHUB_OUTPUT
-          echo "Built and pushed image: $IMAGE_URI"
+          echo "Built and pushed image with tags: $IMAGE_TAG and latest"
+          echo "Terraform will deploy using: $IMAGE_URI"
 
   deploy:
     name: Deploy to ECS with Terraform
@@ -78,17 +88,11 @@ jobs:
       - name: Terraform Plan and Apply
         run: |
           cd terraform
-          echo "Container image being passed: ${{ needs.build.outputs.image }}"
+          echo "Container image being deployed: ${{ needs.build.outputs.image }}"
           terraform plan -var="container_image=${{ needs.build.outputs.image }}" -out=tfplan
           terraform apply -auto-approve tfplan
-
-      - name: Get ECS Task Definition
-        id: task-def
-        run: |
-          TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_DEFINITION }} --region ${{ env.AWS_REGION }} --query taskDefinition)
-          echo "$TASK_DEFINITION" > task-definition.json
-
-      - name: Update ECS Service
+          
+      - name: Update ECS Service (Force New Deployment)
         run: |
           aws ecs update-service \
             --cluster ${{ env.ECS_CLUSTER }} \
