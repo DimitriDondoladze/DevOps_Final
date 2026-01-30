@@ -107,6 +107,7 @@ variable "ecr_repository_name" {
 variable "container_image" {
   description = "Container image URI (will be set by GitHub Actions)"
   type        = string
+  default     = "nginx:latest"
 }
 
 # ECS Variables

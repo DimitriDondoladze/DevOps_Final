@@ -11,6 +11,7 @@ variable "aws_region" {
 variable "container_image" {
   description = "Container image URI"
   type        = string
+  default     = "nginx:latest"
 }
 
 variable "private_subnet_ids" {
