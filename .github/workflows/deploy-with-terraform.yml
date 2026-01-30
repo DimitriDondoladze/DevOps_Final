@@ -73,14 +73,10 @@ jobs:
           cd terraform
           terraform init
 
-      - name: Terraform Plan
+      - name: Terraform Plan and Apply
         run: |
           cd terraform
           terraform plan -var="container_image=${{ needs.build.outputs.image }}" -out=tfplan
-
-      - name: Terraform Apply
-        run: |
-          cd terraform
           terraform apply -auto-approve tfplan
 
       - name: Get ECS Task Definition
