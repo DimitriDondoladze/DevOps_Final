@@ -58,8 +58,8 @@ You need to create an IAM user in AWS so GitHub Actions can deploy for you.
 14. ✓ Acknowledge warning
 15. Click: **Create access key**
 16. **COPY**: 
-    - `Access Key ID`
-    - `Secret Access Key`
+    - `Access Key ID` (will be in format: AKIA...)
+    - `Secret Access Key` (will be a long string)
 
 #### **Option B: Using AWS CLI** (if already configured locally)
 
